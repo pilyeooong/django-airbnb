@@ -180,5 +180,6 @@ dmypy.json
 
 .DS_Store
 .isort.cfg
+uploads/
 
 # End of https://www.gitignore.io/api/django,python,visualstudiocode
