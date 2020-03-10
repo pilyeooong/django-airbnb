@@ -181,5 +181,6 @@ dmypy.json
 .DS_Store
 .isort.cfg
 uploads/
+__MACOSX/
 
 # End of https://www.gitignore.io/api/django,python,visualstudiocode
