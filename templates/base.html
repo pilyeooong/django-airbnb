@@ -3,10 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block page_name %}{% endblock page_name %} | Airbnb</title>
+    <title>{% block page_title %}{% endblock page_title %} | Airbnb</title>
 </head>
 <body>
-    {% include 'partials/header.html' %}
+    <header>
+        {% include 'partials/nav.html' %}
+        {% block search-bar %}
+        <form method="GET" action="{% url 'rooms:search' %}">
+            <input type="text" name="city" placeholder="Search By City">
+        </form>
+        {% endblock search-bar %}
+    </header>
 
     {% block content %}
     {% endblock %}
