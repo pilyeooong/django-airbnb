@@ -12,6 +12,7 @@ flake8 = "*"
 pillow = "*"
 django-countries = "*"
 django-seed = "*"
+django-dotenv = "*"
 
 [requires]
 python_version = "3.7"

@@ -8,6 +8,8 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import FormView
 
+from users.models import User
+
 from .forms import LoginForm
 from .forms import SignUpForm
 
@@ -25,22 +27,7 @@ class LoginView(FormView):
         if user is not None:
             login(self.request, user)
         return super().form_valid(form)
-    
-# class LoginView(View):
-#     def get(self, request):
-#         form = LoginForm(initial={'email': 'scania289@naver.com'})
-#         return render(request, 'users/login.html', {'form': form})
-    
-#     def post(self, request):
-#         form = LoginForm(request.POST)
-#         if form.is_valid():
-#             email = form.cleaned_data.get('email')
-#             password = form.cleaned_data.get('password')
-#             user = authenticate(request, username=email, password=password)
-#             if user is not None:
-#                 login(request, user)
-#                 return redirect(reverse('core:home'))  
-#         return render(request, 'users/login.html', {'form': form})
+
 
 def log_out(request):
     logout(request)
@@ -52,11 +39,6 @@ class SignUpView(FormView):
     template_name = 'users/signup.html'
     form_class = SignUpForm
     success_url = reverse_lazy('core:home')
-    initial = {
-        'first_name': 'Heo',
-        'last_name': 'feel',
-        'email': 'sccs@naver.com',
-    }
     
     def form_valid(self, form):
         form.save()
@@ -65,4 +47,17 @@ class SignUpView(FormView):
         user = authenticate(self.request, username=email, password=password)
         if user is not None:
             login(self.request, user)
+        user.verify_email()
         return super().form_valid(form)
+    
+
+def complete_verification(request, key):
+    try:
+        user = User.objects.get(email_secret=key)
+        user.email_verified = True
+        user.email_secret = ''
+        user.save()
+    except User.DoesNotExist:
+        pass
+
+    return redirect(reverse('core:home'))
