@@ -6,6 +6,7 @@ from django.core.mail import send_mail
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+from django.shortcuts import reverse
 
 
 class User(AbstractUser):
@@ -59,6 +60,9 @@ class User(AbstractUser):
     email_secret = models.CharField(max_length=120, default='', blank=True)
     login_method = models.CharField(max_length=50, choices=LOGIN_CHOICES, default=LOGIN_EMAIL)
     
+    def get_absolute_url(self):
+        return reverse('users:profile', kwargs={'pk': self.pk})
+    
     def verify_email(self):
         if self.email_verified is False:
             secret = uuid.uuid4().hex[:20]
@@ -72,3 +76,4 @@ class User(AbstractUser):
                       html_message=html_message)
             self.save()
         return
+

@@ -16,16 +16,17 @@ class CustomUserAdmin(UserAdmin):
     inlines = (RoomsInline, )
     fieldsets = UserAdmin.fieldsets + (
         (
-            "Custom Profile",
+            'Custom Profile',
             {
-                "fields": (
-                    "avatar",
-                    "gender",
-                    "bio",
-                    "birth",
-                    "language",
-                    "currency",
-                    "superhost",
+                'fields': (
+                    'avatar',
+                    'gender',
+                    'bio',
+                    'birth',
+                    'language',
+                    'currency',
+                    'superhost',
+                    'login_method',
                 )
             }
         ),
